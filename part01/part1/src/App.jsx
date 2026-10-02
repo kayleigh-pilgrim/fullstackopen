@@ -1,38 +1,25 @@
 import { useState } from 'react';
 
-/*
-const Display = ({ counter }) => {
-  return (
-    <div>{counter}</div>
-  );
-}
-*/
-const Display = ({ counter }) => <div>{counter}</div>;
+const Display = ({ value }) => <div>{value}</div>
 
-/*
-const Button = ({ onClick, text }) => {
-  return (
-    <button onClick={onClick}>
-      {text}
-    </button>
-  );
-}
-*/
-const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
+const Button = ({ onClick, children }) => (
+  <button onClick={onClick}>{children}</button>
+);
 
 const App = () => {
-  const [counter, setCounter] = useState(0);
-  
-  const increaseByOne = () => setCounter(counter + 1);
-  const decreaseByOne = () => setCounter(counter - 1);
-  const setToZero = () => setCounter(0);
-  
+  const [value, setValue] = useState(10);
+
+  const setToValue = (newValue) => () => {
+    console.log(`setting value to ${newValue}`);
+    setValue(newValue);
+  }
+
   return (
     <div>
-      <Display counter={counter} />
-      <Button onClick={increaseByOne} text="plus" />
-      <Button onClick={setToZero} text="zero" />
-      <Button onClick={decreaseByOne} text="minus" />
+      <Display value={value} />
+      <Button onClick={() => setToValue(1000)()}>thousand</Button>
+      <Button onClick={() => setToValue(0)()}>reset</Button>
+      <Button onClick={() => setToValue(value + 1)()}>increment</Button>
     </div>
   )
 }
