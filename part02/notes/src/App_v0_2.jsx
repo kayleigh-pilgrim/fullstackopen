@@ -1,30 +1,14 @@
-/*! Continue tomorrow: https://fullstackopen.com/en/part2/getting_data_from_server#exercise-2-11 */
-
-// npm install axios
-// npm install json-server --save-dev
-// Start the json server with: npm run server
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
 import Note from './components/Note'
 
-const App = () => {
-  const [notes, setNotes] = useState([])
+function App({ notesData }) {
+  const [notes, setNotes] = useState(notesData)
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
 
-  useEffect(() => { 
-    // console.log('effect')
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        // console.log('promise fulfilled')
-        setNotes(response.data)
-      })
-  }, [])
-  // console.log('render', notes.length, 'notes')
-
   const notesToShow = showAll
     ? notes
+    // : notes.filter(note => note.important === true)
     : notes.filter(note => note.important)
 
   const addNote = (event) => {
