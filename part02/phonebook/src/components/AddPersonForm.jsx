@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import personsService from '../services/persons'
 
 const Input = ({ label, value, onChange }) => (
   <div>
@@ -18,8 +19,21 @@ const AddPersonForm = ({ persons, setPersons }) => {
   const addPerson = (e) => {
     e.preventDefault()
 
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
+    const existingPerson = persons.find(person => person.name === newName)
+    if (existingPerson) {
+      if (window.confirm(`${newName} is already added to phonebook. Replace the old number with a new one?`)) {
+        const updatedPerson = { ...existingPerson, number: newNumber }
+        personsService.update(existingPerson.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id === existingPerson.id ? returnedPerson : person))
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => {
+            alert('Failed to update person. Please try again.')
+            console.error('Error updating person:', error)
+          })
+      }
       return
     }
 
@@ -29,9 +43,16 @@ const AddPersonForm = ({ persons, setPersons }) => {
       id: persons.length > 0 ? Math.max(...persons.map(p => p.id)) + 1 : 1,
     }
 
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+    personsService.create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch(error => {
+        alert('Failed to add person. Please try again.')
+        console.error('Error adding person:', error)
+      })
   }
 
   return (
