@@ -4,7 +4,7 @@ const DisplayNumber = ({ name, number, onDelete }) => (
   <p>{name} {number} <button onClick={onDelete}>delete</button></p>
 )
 
-const DisplayNumbers = ({ persons, setPersons }) => {
+const DisplayNumbers = ({ persons, setPersons, setNotification }) => {
   const deletePerson = (id) => {
     if (!window.confirm('Are you sure you want to delete this person?')) {
      return;
@@ -13,10 +13,16 @@ const DisplayNumbers = ({ persons, setPersons }) => {
     personsService.remove(id)
       .then(() => {
         setPersons(persons.filter(person => person.id !== id))
+        setNotification({ message: 'Deleted person successfully.', type: 'success' })
+        setTimeout(() => {
+          setNotification({ message: '', type: '' })
+        }, 5000)
       })
       .catch(error => {
-        alert('Failed to delete person. Please try again.')
-        console.error('Error deleting person:', error)
+        setNotification({ message: 'Failed to delete person. Please try again.', type: 'error' })
+        setTimeout(() => {
+          setNotification({ message: '', type: '' })
+        }, 5000)
       })
   }
 

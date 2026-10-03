@@ -1,0 +1,25 @@
+.error {
+    position: fixed;
+    bottom: 30px;
+    right: 10px;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: rgba(200, 0, 0, 0.85);
+    padding: 14px;
+    border-radius: 5px;
+    color: white;
+    font-size: 24px;
+}
+
+.success {
+    position: fixed;
+    bottom: 30px;
+    right: 10px;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: rgba(0, 200, 0, 0.85);
+    padding: 14px;
+    border-radius: 5px;
+    color: white;
+    font-size: 24px;
+}

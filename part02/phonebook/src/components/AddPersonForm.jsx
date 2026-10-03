@@ -9,7 +9,7 @@ const Input = ({ label, value, onChange }) => (
   </div>
 )
 
-const AddPersonForm = ({ persons, setPersons }) => {
+const AddPersonForm = ({ persons, setPersons, setNotification }) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
@@ -26,12 +26,19 @@ const AddPersonForm = ({ persons, setPersons }) => {
         personsService.update(existingPerson.id, updatedPerson)
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id === existingPerson.id ? returnedPerson : person))
+            setNotification({ message: `Updated ${newName}'s number successfully.`, type: 'success' })
+            setTimeout(() => {
+              setNotification({ message: '', type: '' })
+            }, 5000)
             setNewName('')
             setNewNumber('')
           })
           .catch(error => {
-            alert('Failed to update person. Please try again.')
-            console.error('Error updating person:', error)
+            setNotification({ message: 'The person was already removed from the server.', type: 'error' })
+            setTimeout(() => {
+              setNotification({ message: '', type: '' })
+            }, 5000)
+            setPersons(persons.filter(person => person.id !== existingPerson.id))
           })
       }
       return
@@ -46,12 +53,18 @@ const AddPersonForm = ({ persons, setPersons }) => {
     personsService.create(personObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
+        setNotification({ message: `Added ${newName} successfully.`, type: 'success' })
+        setTimeout(() => {
+          setNotification({ message: '', type: '' })
+        }, 5000)
         setNewName('')
         setNewNumber('')
       })
       .catch(error => {
-        alert('Failed to add person. Please try again.')
-        console.error('Error adding person:', error)
+        setNotification({ message: 'Failed to add person. Please try again.', type: 'error' })
+        setTimeout(() => {
+          setNotification({ message: '', type: '' })
+        }, 5000)
       })
   }
 

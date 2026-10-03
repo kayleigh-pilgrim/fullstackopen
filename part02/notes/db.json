@@ -44,11 +44,6 @@
       "content": "4",
       "important": false,
       "id": "3ja7JT6092Q"
-    },
-    {
-      "content": "5",
-      "important": true,
-      "id": "21wKcuYj7Ag"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
