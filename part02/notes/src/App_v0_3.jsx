@@ -1,5 +1,8 @@
+// npm install axios
+// npm install json-server --save-dev
+// Start the json server with: npm run server
 import { useState, useEffect } from 'react'
-import noteService from './services/notes'
+import axios from 'axios'
 import Note from './components/Note'
 
 const App = () => {
@@ -8,12 +11,15 @@ const App = () => {
   const [showAll, setShowAll] = useState(true)
 
   useEffect(() => { 
-    noteService
-      .getAll()
-      .then(initialNotes => {
-        setNotes(initialNotes)
+    // console.log('effect')
+    axios
+      .get('http://localhost:3001/notes')
+      .then(response => {
+        // console.log('promise fulfilled')
+        setNotes(response.data)
       })
   }, [])
+  // console.log('render', notes.length, 'notes')
 
   const notesToShow = showAll
     ? notes
@@ -25,35 +31,22 @@ const App = () => {
     const noteObject = {
       content: newNote,
       important: Math.random() < 0.5,
+      // id: String(notes.length + 1), -> it's better to let the server handle the ID creation
     }
-
-    noteService
-      .create(noteObject)
-      .then(returnedNote => {
-        setNotes(notes.concat(returnedNote))
+    /*
+    setNotes(notes.concat(noteObject))
+    setNewNote('')
+    */
+    axios
+      .post('http://localhost:3001/notes', noteObject)
+      .then(response => {
+        // console.log(response);
+        setNotes(notes.concat(response.data))
         setNewNote('')
       })
   }
 
   const handleNoteChange = (event) => setNewNote(event.target.value)
-
-  const toggleImportanceOf = (id) => {
-    const note = notes.find(n => n.id === id)
-    const changedNote = { ...note, important: !note.important }
-
-    noteService
-      .update(id, changedNote)
-      .then(returnedNote => {
-        setNotes(notes.map(note => note.id === id ? returnedNote : note))
-      })
-      .catch(error => {
-        alert(
-          `The note '${note.content}' was already deleted from the server`
-        )
-        setNotes(notes.filter(n => n.id !== id))
-      })
-  }
-    
 
   return (
     <>
@@ -67,11 +60,7 @@ const App = () => {
 
       <ul>
         {notesToShow.map(note =>
-          <Note
-            key={note.id}
-            note={note}
-            toggleImportance={() => toggleImportanceOf(note.id)}
-          />
+          <Note key={note.id} note={note} />
         )}
       </ul>
 
