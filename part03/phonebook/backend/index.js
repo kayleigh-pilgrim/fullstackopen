@@ -37,6 +37,8 @@ const personNotFound = (response) => {
 
 const randomId = () => Math.floor(Math.random() * 1000000);
 
+app.use(express.static('gui'))
+
 app.get('/info', (request, response) => {
   const info = `<p>Phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`;
   response.send(info);
@@ -60,12 +62,13 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id);
-  persons = persons.filter(p => p.id !== id);
-    
+  
   if (!persons.find(p => p.id === id)) {
     personNotFound(response);
     return;
   }
+  
+  persons = persons.filter(p => p.id !== id);
 
   response.status(204).end();
 });
