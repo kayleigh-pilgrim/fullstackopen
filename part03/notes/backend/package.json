@@ -22,7 +22,9 @@
     "deploy:ui": "npm run build:ui && git add . && git commit -m 'Deploy UI' && git push"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "mongoose": "^9.10.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
