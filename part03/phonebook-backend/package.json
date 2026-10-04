@@ -1,0 +1,28 @@
+{
+  "name": "phonebook-backend",
+  "version": "0.0.1",
+  "description": "",
+  "homepage": "https://github.com/kayleigh-pilgrim/fullstackopen#readme",
+  "bugs": {
+    "url": "https://github.com/kayleigh-pilgrim/fullstackopen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kayleigh-pilgrim/fullstackopen.git"
+  },
+  "license": "MIT",
+  "author": "Kayleigh Pilgrim",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
