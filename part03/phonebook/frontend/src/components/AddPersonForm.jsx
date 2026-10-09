@@ -34,7 +34,7 @@ const AddPersonForm = ({ persons, setPersons, setNotification }) => {
             setNewNumber('')
           })
           .catch(error => {
-            setNotification({ message: 'The person was already removed from the server.', type: 'error' })
+            setNotification({ message: error.response.data.error, type: 'error' })
             setTimeout(() => {
               setNotification({ message: '', type: '' })
             }, 5000)
@@ -61,7 +61,7 @@ const AddPersonForm = ({ persons, setPersons, setNotification }) => {
         setNewNumber('')
       })
       .catch(error => {
-        setNotification({ message: 'Failed to add person. Please try again.', type: 'error' })
+        setNotification({ message: error.response.data.error, type: 'error' })
         setTimeout(() => {
           setNotification({ message: '', type: '' })
         }, 5000)

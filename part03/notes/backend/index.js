@@ -106,7 +106,11 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     response.statusMessage = "Invalid ID";
     return response.status(400).json({ error: 'malformatted id' });
+  } else if (error.name === 'ValidationError') {
+    response.statusMessage = "Validation error";
+    return response.status(400).json({ error: error.message });
   }
+  
   next(error);
 };
 
