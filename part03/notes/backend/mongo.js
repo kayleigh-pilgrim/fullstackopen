@@ -1,20 +1,20 @@
 // CONTINUE HERE TOMORROW: https://fullstackopen.com/en/part3/saving_data_to_mongo_db#exercise-3-12
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-require('dotenv').config();
-const uri = process.env.MONGODB_URI;
+require('dotenv').config()
+const uri = process.env.MONGODB_URI
 
-mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', false)
 
 mongoose.connect(uri, { family: 4 }) // Connect to MongoDB with IPv4 family
 
 const noteSchema = new mongoose.Schema({
   content: String,
   important: Boolean,
-});
+})
 
-const Note = mongoose.model('Note', noteSchema);
+const Note = mongoose.model('Note', noteSchema)
 
 /*
 const note = new Note({
@@ -38,7 +38,7 @@ Note.find({}).then(notes => {
 
 Note.find({ important: true }).then(notes => {
   notes.forEach(note => {
-    console.log(note);
-  });
-  mongoose.connection.close();
-});
+    console.log(note)
+  })
+  mongoose.connection.close()
+})
